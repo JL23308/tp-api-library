@@ -7,6 +7,11 @@ interface Error {
 }
 
 // Middleware pour gérer les erreurs
+
+export type CustomError = Error & {
+    status?: number;
+}
+
 const errorHandler = (
   err: Error,
   req: Request,

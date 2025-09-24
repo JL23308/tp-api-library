@@ -2,6 +2,7 @@ import { Controller, Get, Post, Delete, Route, Path, Body, Tags, Patch } from "t
 import { authorService } from "../services/author.service";
 import { AuthorDTO } from "../dto/author.dto";
 import { Author } from "../models/author.model";
+import { CustomError } from "../middlewares/errorHandler";
 
 @Route("authors")
 @Tags("Authors")
@@ -15,7 +16,13 @@ export class AuthorController extends Controller {
   // Récupère un auteur par ID
   @Get("{id}")
   public async getAuthorById(@Path() id: number): Promise<AuthorDTO | null> {
-    return authorService.getAuthorById(id);
+    let author:Author | null = await authorService.getAuthorById(id);
+    if (author === null) {
+        let error: CustomError = new Error("Author Not Found");
+        error.status = 404;
+        throw error;
+    }
+      return author;
   }
 
   // Crée un nouvel auteur
@@ -39,6 +46,12 @@ export class AuthorController extends Controller {
     @Path() id: number,
     @Body() requestBody: AuthorDTO
   ): Promise<AuthorDTO | null> {
+      let author: Author | null = await authorService.getAuthorById(id);
+      if (author === null) {
+          let error: CustomError = new Error("Author Not Found");
+          error.status = 404;
+          throw error;
+      }
     const { firstName, lastName } = requestBody;
     return authorService.updateAuthor(id, firstName, lastName);
   }
