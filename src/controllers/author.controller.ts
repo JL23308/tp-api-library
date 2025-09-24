@@ -15,7 +15,7 @@ export class AuthorController extends Controller {
 
   // Récupère un auteur par ID
   @Get("{id}")
-  public async getAuthorById(@Path() id: number): Promise<AuthorDTO | null> {
+  public async getAuthorById(@Path() id: number): Promise<AuthorDTO> {
     let author:Author | null = await authorService.getAuthorById(id);
     if (author === null) {
         let error: CustomError = new Error("Author Not Found");
@@ -31,6 +31,11 @@ export class AuthorController extends Controller {
     @Body() requestBody: AuthorDTO
   ): Promise<AuthorDTO> {
     const { firstName, lastName } = requestBody;
+    if(!firstName || !lastName) {
+      let error: CustomError = new Error("First name and last name are required");
+      error.status = 400;
+      throw error;
+    }
     return authorService.createAuthor(firstName, lastName);
   }
 
@@ -46,13 +51,20 @@ export class AuthorController extends Controller {
     @Path() id: number,
     @Body() requestBody: AuthorDTO
   ): Promise<AuthorDTO | null> {
-      let author: Author | null = await authorService.getAuthorById(id);
-      if (author === null) {
-          let error: CustomError = new Error("Author Not Found");
+      const { firstName, lastName } = requestBody;
+      if(!firstName || !lastName) {
+          let error: CustomError = new Error("First name and last name are required");
+          error.status = 400;
+          throw error;
+      }
+      let author = await authorService.updateAuthor(id, firstName, lastName);
+
+      if(author === null) {
+          let error: CustomError = new Error("Author not found");
           error.status = 404;
           throw error;
       }
-    const { firstName, lastName } = requestBody;
-    return authorService.updateAuthor(id, firstName, lastName);
+
+      return author;
   }
 }
