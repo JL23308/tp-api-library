@@ -9,9 +9,10 @@ import {BookCopyDTO} from "../dto/bookCopy.dto";
 
 @Route("books")
 @Tags("Books")
-@Security("jwt", ["read", "write", "delete", "update"])
+@Security("jwt", ["read", "write"])
 export class BookController extends Controller {
   @Get("/")
+  @Security("jwt", ["read:Book"])
   public async getAllBooks(): Promise<BookDTO[]> {
     return bookService.getAllBooks();
   }
@@ -27,6 +28,7 @@ export class BookController extends Controller {
     }
 
     @Post("/")
+    @Security("jwt", ["write:Book"])
     public async createBook(
         @Body() requestBody: BookDTO
     ): Promise<BookDTO> {
@@ -41,6 +43,7 @@ export class BookController extends Controller {
     }
 
     @Patch("{id}")
+    @Security("jwt", ["update:Book"])
     public async updateBook(
         @Path() id: number,
         @Body() requestBody: BookDTO
@@ -63,6 +66,7 @@ export class BookController extends Controller {
     }
 
     @Delete("{id}")
+    @Security("jwt", ["delete:Book"])
     public async deleteBook(@Path() id: number): Promise<void> {
         await bookService.deleteBook(id);
     }

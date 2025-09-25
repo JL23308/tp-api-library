@@ -12,15 +12,26 @@ class AuthenticationService{
             throw error;
         }
        let permissions: string[];
-        switch (username){
+        switch (username) {
             case "admin":
-                permissions = ["admin", "read", "write", "delete", "update"];
+                permissions = [
+                    "read:Author", "write:Author", "update:Author", "delete:Author",
+                    "read:Book", "write:Book", "update:Book", "delete:Book",
+                    "read:BookCopy", "write:BookCopy", "update:BookCopy", "delete:BookCopy",
+                ];
                 break;
             case "manager":
-                permissions = ["read", "write", "update", "delete:BookCopy"];
+                permissions = [
+                    "read:Author", "write:Author", "update:Author",
+                    "read:Book", "write:Book", "update:Book",
+                    "read:BookCopy", "write:BookCopy", "update:BookCopy", "delete:BookCopy"
+                ];
                 break;
             default:
-                permissions = ["read", "write:Book"];
+                permissions = [
+                    "read:Author", "read:Book", "read:BookCopy",
+                    "write:Book"
+                ];
                 break;
         }
         const token: string = jwt.sign(

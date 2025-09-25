@@ -7,7 +7,7 @@ import {CustomError} from "../middlewares/errorHandler";
 
 @Route("bookCopys")
 @Tags("BookCopys")
-@Security("jwt", ["read", "write", "delete", "update"])
+@Security("jwt", ["read", "write"])
 export class BookCopyController extends Controller {
     @Get("/")
     public async getAllBookCopies(): Promise<BookCopyDTO[]> {
@@ -26,6 +26,7 @@ export class BookCopyController extends Controller {
     }
 
     @Post("/")
+    @Security("jwt", ["create:BookCopy"])
     public async createBook(
         @Body() requestBody: BookCopyDTO
     ): Promise<BookCopyDTO> {
@@ -40,6 +41,7 @@ export class BookCopyController extends Controller {
     }
 
     @Patch("{id}")
+    @Security("jwt", ["update:BookCopy"])
     public async updateBook(
         @Path() id: number,
         @Body() requestBody: BookCopyDTO
@@ -55,6 +57,7 @@ export class BookCopyController extends Controller {
     }
 
     @Delete("{id}")
+    @Security("jwt", ["delete:BookCopy"])
     public async deleteBookCopy(@Path() id: number): Promise<void> {
         await bookCopyService.deleteBookCopy(id);
     }

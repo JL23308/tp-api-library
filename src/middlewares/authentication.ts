@@ -2,10 +2,6 @@ import * as express from "express";
 import * as jwt from "jsonwebtoken";
 import {decode} from "jsonwebtoken";
 
-let adminRight: string[] = ["admin", "read", "write", "delete", "update"];
-let userRight: string[] = ["read", "write:Book"];
-let managerRight: string[] = ["read", "write", "update", "delete:BookCopy"];
-
 export function expressAuthentication(
     request: express.Request,
     securityName: string,
@@ -23,11 +19,12 @@ export function expressAuthentication(
                         if (error)
                             return reject(new Error("Invalid token"));
 
-                        const username = decoded.username;
-                        const permissions = decoded.permissions;
+                        const permissions: string[] = decoded.permissions;
                         if(scopes !== undefined) {
-                            // Gestion des droits
-
+                            const hasAllScopes = scopes.every(scope => permissions.includes(scope));
+                            if (!hasAllScopes) {
+                                return reject(new Error("Insufficient rights"));
+                            }
                         }
                         resolve(decoded);
                     }

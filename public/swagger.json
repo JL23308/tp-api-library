@@ -147,9 +147,7 @@
 					{
 						"jwt": [
 							"read",
-							"write",
-							"delete",
-							"update"
+							"write"
 						]
 					}
 				],
@@ -175,10 +173,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"create:BookCopy"
 						]
 					}
 				],
@@ -217,9 +212,7 @@
 					{
 						"jwt": [
 							"read",
-							"write",
-							"delete",
-							"update"
+							"write"
 						]
 					}
 				],
@@ -255,10 +248,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"update:BookCopy"
 						]
 					}
 				],
@@ -297,10 +287,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"delete:BookCopy"
 						]
 					}
 				],
@@ -341,10 +328,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"read:Book"
 						]
 					}
 				],
@@ -370,10 +354,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"write:Book"
 						]
 					}
 				],
@@ -416,10 +397,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"update:Book"
 						]
 					}
 				],
@@ -458,10 +436,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"delete:Book"
 						]
 					}
 				],
@@ -504,9 +479,7 @@
 					{
 						"jwt": [
 							"read",
-							"write",
-							"delete",
-							"update"
+							"write"
 						]
 					}
 				],
@@ -548,9 +521,7 @@
 					{
 						"jwt": [
 							"read",
-							"write",
-							"delete",
-							"update"
+							"write"
 						]
 					}
 				],
@@ -576,10 +547,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"write:Author"
 						]
 					}
 				],
@@ -618,9 +586,7 @@
 					{
 						"jwt": [
 							"read",
-							"write",
-							"delete",
-							"update"
+							"write"
 						]
 					}
 				],
@@ -649,10 +615,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"delete:Author"
 						]
 					}
 				],
@@ -693,10 +656,7 @@
 				"security": [
 					{
 						"jwt": [
-							"read",
-							"write",
-							"delete",
-							"update"
+							"update:Author"
 						]
 					}
 				],
@@ -749,9 +709,7 @@
 					{
 						"jwt": [
 							"read",
-							"write",
-							"delete",
-							"update"
+							"write"
 						]
 					}
 				],
