@@ -21,6 +21,7 @@ export function expressAuthentication(
                     function(erreur, decoded) {
                         if(scopes !== undefined) {
                             // Gestion des droits
+
                         }
                         resolve(decoded);
                     }

@@ -8,7 +8,7 @@ import {bookService} from "../services/book.service";
 
 @Route("authors")
 @Tags("Authors")
-@Security("jwt", ["write", "read"])
+@Security("jwt", ["read", "write", "delete", "update"])
 export class AuthorController extends Controller {
   // Récupère tous les auteurs
   @Get("/")

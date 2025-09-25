@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Patch, Path, Post, Route, Tags} from "tsoa";
+import {Body, Controller, Delete, Get, Patch, Path, Post, Route, Security, Tags} from "tsoa";
 import { BookDTO } from "../dto/book.dto";
 import { bookService } from "../services/book.service";
 import {CustomError} from "../middlewares/errorHandler";
@@ -9,6 +9,7 @@ import {BookCopyDTO} from "../dto/bookCopy.dto";
 
 @Route("books")
 @Tags("Books")
+@Security("jwt", ["read", "write", "delete", "update"])
 export class BookController extends Controller {
   @Get("/")
   public async getAllBooks(): Promise<BookDTO[]> {
