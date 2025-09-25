@@ -3,6 +3,8 @@ import { authorService } from "../services/author.service";
 import { AuthorDTO } from "../dto/author.dto";
 import { Author } from "../models/author.model";
 import { CustomError } from "../middlewares/errorHandler";
+import {BookDTO} from "../dto/book.dto";
+import {bookService} from "../services/book.service";
 
 @Route("authors")
 @Tags("Authors")
@@ -42,7 +44,13 @@ export class AuthorController extends Controller {
   // Supprime un auteur par ID
   @Delete("{id}")
   public async deleteAuthor(@Path() id: number): Promise<void> {
-    await authorService.deleteAuthor(id);
+      try {
+          await authorService.deleteAuthor(id);
+      } catch (SequelizeForeignKeyConstraintError) {
+          let error: CustomError = new Error("Cannot delete author with associated books");
+          error.status = 409;
+          throw error;
+      }
   }
 
   // Met à jour un auteur par ID
@@ -67,4 +75,18 @@ export class AuthorController extends Controller {
 
       return author;
   }
+
+    @Get("{id}/books")
+    public async getAuthorBooksById(@Path() id: number): Promise<BookDTO[] | null> {
+        let author: Author | null = await authorService.getAuthorById(id);
+        if (!author) {
+            let error: CustomError = new Error("Author not found");
+            error.status = 404;
+            throw error;
+        }
+
+        return bookService.getBooksByAuthor(author);
+    }
+
+
 }

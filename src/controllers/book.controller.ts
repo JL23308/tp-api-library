@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Patch, Path, Post, Route, Tags} from "tsoa";
+import {Body, Controller, Delete, Get, Patch, Path, Post, Route, Tags} from "tsoa";
 import { BookDTO } from "../dto/book.dto";
 import { bookService } from "../services/book.service";
 import {AuthorDTO} from "../dto/author.dto";
@@ -7,6 +7,8 @@ import {authorService} from "../services/author.service";
 import {CustomError} from "../middlewares/errorHandler";
 import {Book} from "../models/book.model";
 import {toDto} from "../mapper/book.mapper";
+import {bookCopyService} from "../services/bookCollection.service";
+import {BookCopyDTO} from "../dto/bookCopy.dto";
 
 @Route("books")
 @Tags("Books")
@@ -62,6 +64,21 @@ export class BookController extends Controller {
 
     }
 
+    @Delete("{id}")
+    public async deleteBook(@Path() id: number): Promise<void> {
+        await bookService.deleteBook(id);
+    }
 
+    @Get("/{id}/bookCopys")
+    public async getBookBookCopysById(@Path() id: number): Promise<BookCopyDTO[] | null> {
+        const book: Book | null = await bookService.getBookById(id);
+        if (!book) {
+            let error: CustomError = new Error("Book not found");
+            error.status = 404;
+            throw error;
+        }
+
+        return bookCopyService.getBookCopysByBookId(id);
+    }
 }
 

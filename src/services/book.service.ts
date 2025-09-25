@@ -1,10 +1,8 @@
 import { Author } from "../models/author.model";
 import { Book } from "../models/book.model";
-import {BookDTO} from "../dto/book.dto";
-import {AuthorDTO} from "../dto/author.dto";
-import {BookController} from "../controllers/book.controller";
 import {AuthorService} from "./author.service";
 import {CustomError} from "../middlewares/errorHandler";
+import {BookCopy} from "../models/bookCopy.model";
 
 class BookService {
     public authorService = new AuthorService();
@@ -66,6 +64,19 @@ class BookService {
       }
       return null;
   }
+    public async deleteBook(id: number): Promise<void> {
+        let countCopies = await BookCopy.findAndCountAll({ where: { bookId: id } });
+        if(countCopies.count > 0) {
+            let error: CustomError = new Error("Cannot delete book with associated copies");
+            error.status = 409;
+            throw error;
+        }
+        await Book.destroy({ where: { id } });
+    }
+
+    public async getBooksByAuthor(author: Author): Promise<Book[] | null> {
+        return Book.findAll({where: {authorId: author.id}});
+    }
 }
 
 export const bookService = new BookService();
