@@ -12,7 +12,7 @@ class AuthenticationService{
             throw error;
         }
        let permissions: string[];
-        switch (user.username){
+        switch (username){
             case "admin":
                 permissions = ["admin", "read", "write", "delete", "update"];
                 break;

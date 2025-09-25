@@ -23,9 +23,8 @@ export function expressAuthentication(
                         if (error)
                             return reject(new Error("Invalid token"));
 
-                        const username = decoded.user;
+                        const username = decoded.username;
                         const permissions = decoded.permissions;
-
                         if(scopes !== undefined) {
                             // Gestion des droits
 
