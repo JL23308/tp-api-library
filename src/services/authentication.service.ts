@@ -11,9 +11,20 @@ class AuthenticationService{
             error.status = 401;
             throw error;
         }
-
+       let permissions: string[];
+        switch (user.username){
+            case "admin":
+                permissions = ["admin", "read", "write", "delete", "update"];
+                break;
+            case "manager":
+                permissions = ["read", "write", "update", "delete:BookCopy"];
+                break;
+            default:
+                permissions = ["read", "write:Book"];
+                break;
+        }
         const token: string = jwt.sign(
-            { username: user.username },
+            { username: username, permissions: permissions },
             "your_secret_key",
             { expiresIn: "1h" });
         return token;

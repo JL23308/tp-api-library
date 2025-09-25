@@ -1,8 +1,10 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
+import {decode} from "jsonwebtoken";
 
-let adminRight = [];
-let userRight = [];
+let adminRight: string[] = ["admin", "read", "write", "delete", "update"];
+let userRight: string[] = ["read", "write:Book"];
+let managerRight: string[] = ["read", "write", "update", "delete:BookCopy"];
 
 export function expressAuthentication(
     request: express.Request,
@@ -16,9 +18,14 @@ export function expressAuthentication(
             if (!token) {
                 reject(new Error("No token provided"));
             } else {
-
                 jwt.verify(token, "your_secret_key",
-                    function(erreur, decoded) {
+                    function(error, decoded: any) {
+                        if (error)
+                            return reject(new Error("Invalid token"));
+
+                        const username = decoded.user;
+                        const permissions = decoded.permissions;
+
                         if(scopes !== undefined) {
                             // Gestion des droits
 
