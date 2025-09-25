@@ -83,9 +83,35 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"AuthenticationDto": {
+				"properties": {
+					"grant_type": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"grant_type",
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"jwt": {
+				"type": "apiKey",
+				"in": "header",
+				"name": "Authorization"
+			}
+		}
 	},
 	"info": {
 		"title": "express-typescript",
@@ -428,7 +454,14 @@
 				"tags": [
 					"Authors"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"write",
+							"read"
+						]
+					}
+				],
 				"parameters": []
 			},
 			"post": {
@@ -448,7 +481,14 @@
 				"tags": [
 					"Authors"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"write",
+							"read"
+						]
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -480,7 +520,14 @@
 				"tags": [
 					"Authors"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"write",
+							"read"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -503,7 +550,14 @@
 				"tags": [
 					"Authors"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"write",
+							"read"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -538,7 +592,14 @@
 				"tags": [
 					"Authors"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"write",
+							"read"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -584,7 +645,14 @@
 				"tags": [
 					"Authors"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"write",
+							"read"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -596,6 +664,43 @@
 						}
 					}
 				]
+			}
+		},
+		"/auth": {
+			"post": {
+				"operationId": "Authenticate",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AuthenticationDto"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

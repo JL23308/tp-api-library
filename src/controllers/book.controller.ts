@@ -1,9 +1,6 @@
 import {Body, Controller, Delete, Get, Patch, Path, Post, Route, Tags} from "tsoa";
 import { BookDTO } from "../dto/book.dto";
 import { bookService } from "../services/book.service";
-import {AuthorDTO} from "../dto/author.dto";
-import {Author} from "../models/author.model";
-import {authorService} from "../services/author.service";
 import {CustomError} from "../middlewares/errorHandler";
 import {Book} from "../models/book.model";
 import {toDto} from "../mapper/book.mapper";
